@@ -1,5 +1,7 @@
-import './Main.css'
-import React, {useState} from 'react'
+import "./Main.css";
+import React, { useState } from "react";
+import Inputs from "./Inputs";
+import Result from "./Result";
 
 const Main = () => {
   const [data, setData] = useState({
@@ -12,87 +14,92 @@ const Main = () => {
   });
 
   const setHomeValue = (e) => {
-    let newData = {...data};
+    let newData = { ...data };
     newData.homeValue = e.target.value;
     newData.downPayment = e.target.value * 0.2;
     newData.loanAmount = e.target.value * 0.8;
-    setData(newData)
-  }
+    setData(newData);
+  };
 
   const setDownPayment = (e) => {
-    let newData = {...data};
+    let newData = { ...data };
     newData.downPayment = e.target.value;
     newData.loanAmount = newData.homeValue - newData.downPayment;
-    setData(newData)
-  }
+    setData(newData);
+  };
 
   const setLoanAmount = (e) => {
-    let newData = {...data};
+    let newData = { ...data };
     newData.loanAmount = e.target.value;
     newData.downPayment = newData.homeValue - newData.loanAmount;
-    setData(newData)
-  }
+    setData(newData);
+  };
 
   const setInterest = (e) => {
-    let newData = {...data}
+    let newData = { ...data };
     newData.interestRate = e.target.value;
-    setData(newData)
-  }
+    setData(newData);
+  };
 
   const setTenure = (e) => {
-    let newData = {...data}
-    newData.loanTerm = e.target.value
-    setData(newData)
-  }
-
+    let newData = { ...data };
+    newData.loanTerm = e.target.value;
+    setData(newData);
+  };
 
   return (
     <main>
+      {/* Sliders */}
       <div className="container">
         {/* Home Value Input */}
-        <div className="inputs">
-          <label htmlFor='home' className='title'>Home Value</label>
-          <label htmlFor='home' className='value'>$ {data.homeValue}</label>
-          <input type="range" id="home" value={data.homeValue} step={100}  min={1000} max={10000} onChange={setHomeValue}/>
-          <div className="ranges">
-            <p className='min-val'>$ 1000</p>
-            <p className='max-val'>$ 10000</p>
-          </div>
-        </div>
+        <Inputs
+          type="home"
+          title="Home Value"
+          value={data.homeValue}
+          step={100}
+          min={1000}
+          max={10000}
+          onChange={setHomeValue}
+        />
         {/* Down Payment Input */}
-        <div className="inputs">
-          <label htmlFor='down' className='title'>Down Payment</label>
-          <label htmlFor='down' className='value'>$ {data.downPayment}</label>
-          <input type="range" id="down" value={data.downPayment} step={100} min={0} max={data.homeValue} onChange={setDownPayment}/>
-          <div className="ranges">
-            <p className='min-val'>$ 0</p>
-            <p className='max-val'>$ {data.homeValue}</p>
-          </div>
-        </div>
+        <Inputs
+          type="down"
+          title="Down Payment"
+          value={data.downPayment}
+          step={100}
+          min={0}
+          max={data.homeValue}
+          onChange={setDownPayment}
+        />
         {/* Loan Amount Input */}
-        <div className="inputs">
-          <label htmlFor='loan' className='title'>Loan Amount</label>
-          <label htmlFor='loan' className='value'>$ {data.loanAmount}</label>
-          <input type="range" id="loan" value={data.loanAmount} step={100} min={0} max={data.homeValue} onChange={setLoanAmount}/>
-          <div className="ranges">
-            <p className='min-val'>$ 0</p>
-            <p className='max-val'>$ {data.homeValue}</p>
-          </div>
-        </div>
+        <Inputs
+          type="loan"
+          title="Loan Amount"
+          value={data.loanAmount}
+          step={100}
+          min={0}
+          max={data.homeValue}
+          onChange={setLoanAmount}
+        />
         {/* Interest Input */}
-        <div className="inputs">
-          <label htmlFor='interest' className='title'>Interest Rate</label>
-          <label htmlFor='interest' className='value'>{data.interestRate} %</label>
-          <input type="range" id="interest" value={data.interestRate} step={1} min={2} max={18} onChange={setInterest}/>
-          <div className="ranges">
-            <p className='min-val'>2 %</p>
-            <p className='max-val'>18 %</p>
-          </div>
-        </div>
+          <Inputs
+          type="interest"
+          title="Interest Rate"
+          value={data.interestRate}
+          step={1}
+          min={2}
+          max={18}
+          onChange={setInterest}
+        />
         {/* Drop down for Tenure */}
         <div className="inputs">
           <label htmlFor="tenure">Tenure</label>
-          <select id="tenure" value={data.loanTerm} onChange={setTenure}>
+          <select
+            className="round"
+            id="tenure"
+            value={data.loanTerm}
+            onChange={setTenure}
+          >
             <option value={5}>5 Years</option>
             <option value={10}>10 Years</option>
             <option value={15}>15 Years</option>
@@ -101,8 +108,10 @@ const Main = () => {
           </select>
         </div>
       </div>
+      {/* Chart */}
+      <Result data={data} />
     </main>
-  )
-}
+  );
+};
 
-export default Main
+export default Main;
